@@ -33,7 +33,7 @@ twitter_username: Stalissss
 github_username:  Stalis
 
 # Build settings
-theme: jekyll-theme-console
+remote_theme: jekyll-theme-console
 plugins:
   - jekyll-feed
 
