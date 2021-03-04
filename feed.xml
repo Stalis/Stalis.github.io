@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2021-03-04T16:05:16+00:00</updated><id>/feed.xml</id><title type="html">Stalis’s Lair</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><entry><title type="html">Концепт пошаговости</title><link href="/pseudo-3d-js/2021/03/03/turn-based-system-concepts.html" rel="alternate" type="text/html" title="Концепт пошаговости" /><published>2021-03-03T20:04:00+00:00</published><updated>2021-03-03T20:04:00+00:00</updated><id>/pseudo-3d-js/2021/03/03/turn-based-system-concepts</id><content type="html" xml:base="/pseudo-3d-js/2021/03/03/turn-based-system-concepts.html">&lt;h1 id=&quot;концепт-пошаговости&quot;&gt;Концепт пошаговости&lt;/h1&gt;
+
+&lt;p&gt;Разделение на “серверную” часть - сама игра, пошаговая, и “клиентскую” часть - интерфейс, в реалтайме. Пусть обе части работают на ECS для уменьшения переписывания кода на данном этапе, но система связи должна быть снаружи не ECS-based, чтобы можно было перейти на любую систему отображения.&lt;/p&gt;
+
+&lt;h2 id=&quot;задачи-сервераaka-игра-aka-ecs&quot;&gt;Задачи “сервера”(a.k.a. игра, a.k.a. ECS)&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;Хранить состояние игровых сущностей&lt;/li&gt;
+  &lt;li&gt;Реализовывать механики игры&lt;/li&gt;
+  &lt;li&gt;Работать пошагово&lt;/li&gt;
+  &lt;li&gt;Сообщать внешним “слушателям” об изменениях в состоянии игрового мира&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;задачи-клиентаaka-интерфейс&quot;&gt;Задачи “клиента”(a.k.a. интерфейс)&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;Отрисовывать текущее состояние обозримых сущностей&lt;/li&gt;
+  &lt;li&gt;Сообщать игре о действиях пользователя: нажатие кнопки, тыкание в экран&lt;/li&gt;
+  &lt;li&gt;Реагировать на изменение состояния игры - “слушать” сервер&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;концепт-событий&quot;&gt;Концепт событий&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;Содержит задержку в ходах(только внутри игрового сервера)&lt;/li&gt;
+  &lt;li&gt;To be continued… &lt;em&gt;Music from JJBA&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;идеи&quot;&gt;Идеи&lt;/h1&gt;
+
+&lt;h2 id=&quot;mvc&quot;&gt;MVC&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;ECS - модель, состояние игры - вьюха, приемщик команд - контроллер&lt;/li&gt;
+  &lt;li&gt;Клиент читает состояние игры и отрисовывает его&lt;/li&gt;
+  &lt;li&gt;Клиент передает команды, использует параметры, специфичные для данной команды&lt;/li&gt;
+  &lt;li&gt;Сервер реагирует на команды, изменяет состояние компонентов в ECS&lt;/li&gt;
+  &lt;li&gt;Сервер обновляет актуализирует состояние в соответствие с ECS&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;event-bus&quot;&gt;Event Bus&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;ECS открывает свой EventEmitter&lt;/li&gt;
+  &lt;li&gt;Интерфейс посылает команды в виде событий наравне с самой игрой&lt;/li&gt;
+  &lt;li&gt;Обе стороны имеют один общий формат событий&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;yaebus&quot;&gt;YAEBus&lt;/h2&gt;
+&lt;ul&gt;
+  &lt;li&gt;Интерфейс отправляет команды на Event Bus&lt;/li&gt;
+  &lt;li&gt;Event Bus записывает команду в какую-то часть состояния игры и запускает один игровой цикл&lt;/li&gt;
+  &lt;li&gt;Игровой цикл - не обязательно целый ход. Это может быть ход одного персонажа или попытка действия&lt;/li&gt;
+  &lt;li&gt;Игра проходит цикл и возвращает результат в тот же Event Bus&lt;/li&gt;
+  &lt;li&gt;Результат может содержать:
+    &lt;ul&gt;
+      &lt;li&gt;булево значение - результат выполнения команды&lt;/li&gt;
+      &lt;li&gt;объект, описывающий изменения в состоянии игры, если таковые были&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Окончание хода пускай будет пока отдельной командой, которую в любом случае надо делать, чтобы закончить ход, даже если очки хода закончились&lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><category term="pseudo-3d-js" /><summary type="html">Концепт пошаговости</summary></entry><entry><title type="html">Welcome to Jekyll!</title><link href="/jekyll/update/2021/03/03/welcome-to-jekyll.html" rel="alternate" type="text/html" title="Welcome to Jekyll!" /><published>2021-03-03T09:45:56+00:00</published><updated>2021-03-03T09:45:56+00:00</updated><id>/jekyll/update/2021/03/03/welcome-to-jekyll</id><content type="html" xml:base="/jekyll/update/2021/03/03/welcome-to-jekyll.html">&lt;p&gt;You’ll find this post in your &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;jekyll serve&lt;/code&gt;, which launches a web server and auto-regenerates your site when a file is updated.&lt;/p&gt;
+
+&lt;p&gt;Jekyll requires blog post files to be named according to the following format:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;YEAR-MONTH-DAY-title.MARKUP&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Where &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;YEAR&lt;/code&gt; is a four-digit number, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MONTH&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;DAY&lt;/code&gt; are both two-digit numbers, and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MARKUP&lt;/code&gt; is the file extension representing the format used in the file. After that, include the necessary front matter. Take a look at the source for this post to get an idea about how it works.&lt;/p&gt;
+
+&lt;p&gt;Jekyll also offers powerful support for code snippets:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Hi, &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'Tom'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;#=&amp;gt; prints 'Hi, Tom' to STDOUT.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Check out the &lt;a href=&quot;https://jekyllrb.com/docs/home&quot;&gt;Jekyll docs&lt;/a&gt; for more info on how to get the most out of Jekyll. File all bugs/feature requests at &lt;a href=&quot;https://github.com/jekyll/jekyll&quot;&gt;Jekyll’s GitHub repo&lt;/a&gt;. If you have questions, you can ask them on &lt;a href=&quot;https://talk.jekyllrb.com/&quot;&gt;Jekyll Talk&lt;/a&gt;.&lt;/p&gt;</content><author><name></name></author><category term="jekyll" /><category term="update" /><summary type="html">You’ll find this post in your _posts directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run jekyll serve, which launches a web server and auto-regenerates your site when a file is updated.</summary></entry></feed>

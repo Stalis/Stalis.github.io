@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; img-src 'self'; font-src 'self' https://fonts.gstatic.com; connect-src 'self'; media-src 'self'; object-src 'self'; child-src 'self'; form-action 'none'; base-uri 'self'" />
+<meta http-equiv="X-XSS-Protection"  content="1;mode=block" always>
+<meta http-equiv="Referrer-Policy" content="no-referrer, strict-origin-when-cross-origin"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Концепт пошаговости</title><!-- Begin Jekyll SEO tag v2.7.1 -->
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Концепт пошаговости" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Концепт пошаговости" />
+<meta property="og:description" content="Концепт пошаговости" />
+<link rel="canonical" href="/pseudo-3d-js/2021/03/03/turn-based-system-concepts.html" />
+<meta property="og:url" content="/pseudo-3d-js/2021/03/03/turn-based-system-concepts.html" />
+<meta property="og:site_name" content="Stalis’s Lair" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-03-03T20:04:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Концепт пошаговости" />
+<script type="application/ld+json">
+{"description":"Концепт пошаговости","url":"/pseudo-3d-js/2021/03/03/turn-based-system-concepts.html","@type":"BlogPosting","datePublished":"2021-03-03T20:04:00+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"/pseudo-3d-js/2021/03/03/turn-based-system-concepts.html"},"headline":"Концепт пошаговости","dateModified":"2021-03-03T20:04:00+00:00","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" type="text/css" href="/assets/main.css"></head>
+<body>
+    <div class="container"><header>
+  <div class="menu">
+    <ul><li><a href="/">/</a></li><li><a href="/about/">/about</a></li></ul>
+  </div>
+</header>
+<main>
+      <h1 id="концепт-пошаговости">Концепт пошаговости</h1>
+
+<p>Разделение на “серверную” часть - сама игра, пошаговая, и “клиентскую” часть - интерфейс, в реалтайме. Пусть обе части работают на ECS для уменьшения переписывания кода на данном этапе, но система связи должна быть снаружи не ECS-based, чтобы можно было перейти на любую систему отображения.</p>
+
+<h2 id="задачи-сервераaka-игра-aka-ecs">Задачи “сервера”(a.k.a. игра, a.k.a. ECS)</h2>
+<ul>
+  <li>Хранить состояние игровых сущностей</li>
+  <li>Реализовывать механики игры</li>
+  <li>Работать пошагово</li>
+  <li>Сообщать внешним “слушателям” об изменениях в состоянии игрового мира</li>
+</ul>
+
+<h2 id="задачи-клиентаaka-интерфейс">Задачи “клиента”(a.k.a. интерфейс)</h2>
+<ul>
+  <li>Отрисовывать текущее состояние обозримых сущностей</li>
+  <li>Сообщать игре о действиях пользователя: нажатие кнопки, тыкание в экран</li>
+  <li>Реагировать на изменение состояния игры - “слушать” сервер</li>
+</ul>
+
+<h2 id="концепт-событий">Концепт событий</h2>
+<ul>
+  <li>Содержит задержку в ходах(только внутри игрового сервера)</li>
+  <li>To be continued… <em>Music from JJBA</em></li>
+</ul>
+
+<h1 id="идеи">Идеи</h1>
+
+<h2 id="mvc">MVC</h2>
+<ul>
+  <li>ECS - модель, состояние игры - вьюха, приемщик команд - контроллер</li>
+  <li>Клиент читает состояние игры и отрисовывает его</li>
+  <li>Клиент передает команды, использует параметры, специфичные для данной команды</li>
+  <li>Сервер реагирует на команды, изменяет состояние компонентов в ECS</li>
+  <li>Сервер обновляет актуализирует состояние в соответствие с ECS</li>
+</ul>
+
+<h2 id="event-bus">Event Bus</h2>
+<ul>
+  <li>ECS открывает свой EventEmitter</li>
+  <li>Интерфейс посылает команды в виде событий наравне с самой игрой</li>
+  <li>Обе стороны имеют один общий формат событий</li>
+</ul>
+
+<h2 id="yaebus">YAEBus</h2>
+<ul>
+  <li>Интерфейс отправляет команды на Event Bus</li>
+  <li>Event Bus записывает команду в какую-то часть состояния игры и запускает один игровой цикл</li>
+  <li>Игровой цикл - не обязательно целый ход. Это может быть ход одного персонажа или попытка действия</li>
+  <li>Игра проходит цикл и возвращает результат в тот же Event Bus</li>
+  <li>Результат может содержать:
+    <ul>
+      <li>булево значение - результат выполнения команды</li>
+      <li>объект, описывающий изменения в состоянии игры, если таковые были</li>
+    </ul>
+  </li>
+  <li>Окончание хода пускай будет пока отдельной командой, которую в любом случае надо делать, чтобы закончить ход, даже если очки хода закончились</li>
+</ul>
+
+
+
+    </main><footer>
+    <p>
+        Used theme `jekyll-theme-console` <a href="https://github.com/b2a3e8/jekyll-theme-console">source</a>
+    </p>
+    
+</footer></div>
+  </body>
+</html>
