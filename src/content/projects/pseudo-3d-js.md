@@ -9,6 +9,7 @@ stack:
   - Webpack
 repo: https://github.com/Stalis/pseudo-3d-js
 demo: https://stalis.github.io/demos/pseudo-3d-js/
+embedDemo: true
 date: 2026-10-05
 draft: false
 ---

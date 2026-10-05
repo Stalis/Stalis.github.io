@@ -21,6 +21,12 @@ const { Content } = await render(project);
     <p class="lede">{project.data.description}</p>
     {project.data.stack.length > 0 && <p class="tags">{project.data.stack.join(' · ')}</p>}
     <Content />
+    {project.data.embedDemo && project.data.demo && (
+      <section class="demo">
+        <h2>Демо</h2>
+        <iframe class="demo-frame" src={project.data.demo} title={`Демо: ${project.data.title}`} loading="lazy"></iframe>
+      </section>
+    )}
     {(project.data.repo || project.data.demo) && (
       <p class="links">
         {project.data.repo && <a href={project.data.repo}>Исходный код</a>}
