@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Stanislav Babkin — Backend Engineer</title>
+  <desc id="desc">Backend engineering, technical notes, and side projects.</desc>
+  <rect width="1200" height="630" fill="#101113"/>
+  <circle cx="1010" cy="80" r="360" fill="#173d2f" opacity=".55"/>
+  <path d="M80 96h1040M80 534h1040" stroke="#343740"/>
+  <text x="80" y="176" fill="#9ee7c5" font-family="Inter,Arial,sans-serif" font-size="24" font-weight="700" letter-spacing="3">STANISLAV BABKIN</text>
+  <text x="80" y="300" fill="#e8e9ed" font-family="Inter,Arial,sans-serif" font-size="74" font-weight="800">Backend engineering,</text>
+  <text x="80" y="386" fill="#e8e9ed" font-family="Inter,Arial,sans-serif" font-size="74" font-weight="800">notes &amp; side projects</text>
+  <text x="80" y="470" fill="#a9adb8" font-family="Inter,Arial,sans-serif" font-size="28">stalis.github.io</text>
+</svg>
