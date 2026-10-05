@@ -107,9 +107,9 @@ h3 { margin: 0; font-size: 1.2rem; line-height: 1.25; }
 .prose { max-width: var(--measure); padding-block: 4rem; }
 .prose h2 { margin-top: 2.5rem; font-size: 2rem; }
 .prose p, .lede { font-size: 1.125rem; }
-.demo { margin-bottom: 2.5rem; }
+.demo { width: min(52.5rem, calc(100vw - 2rem)); margin-bottom: 2.5rem; }
 .demo-player { position: relative; }
-.demo-frame { display: block; width: 100%; min-height: 24rem; border: 1px solid var(--line); border-radius: 0.5rem; pointer-events: none; }
+.demo-frame { display: block; width: 100%; height: 40rem; border: 1px solid var(--line); border-radius: 0.5rem; pointer-events: none; }
 .demo-activate { position: absolute; inset: 0; width: 100%; border: 1px solid var(--line); border-radius: 0.5rem; background: rgb(16 17 19 / 88%); color: inherit; font: inherit; cursor: pointer; }
 .demo.is-active .demo-frame { pointer-events: auto; }
 .demo.is-active .demo-activate { display: none; }

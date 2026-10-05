@@ -56,18 +56,6 @@ const { Content } = await render(project);
     actions.append(link);
     demo.append(player, actions);
 
-    frame.addEventListener('load', () => {
-      const documentElement = frame.contentDocument?.documentElement;
-      if (!documentElement) return;
-
-      const resize = () => {
-        frame.style.height = `${documentElement.scrollHeight}px`;
-      };
-
-      resize();
-      new ResizeObserver(resize).observe(documentElement);
-    });
-
     activate.addEventListener('click', () => {
       demo.classList.add('is-active');
       frame.tabIndex = 0;
