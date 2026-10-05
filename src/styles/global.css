@@ -46,7 +46,11 @@ h2 { line-height: 1.15; margin-bottom: 0.5rem; }
 .prose h2 { margin-top: 2.5rem; }
 .prose p, .lede { font-size: 1.125rem; }
 .demo { margin-top: 2.5rem; }
-.demo-frame { width: 100%; aspect-ratio: 4 / 3; border: 1px solid #343740; border-radius: 0.5rem; }
+.demo-player { position: relative; }
+.demo-frame { display: block; width: 100%; aspect-ratio: 4 / 3; border: 1px solid #343740; border-radius: 0.5rem; pointer-events: none; }
+.demo-activate { position: absolute; inset: 0; width: 100%; border: 1px solid #343740; border-radius: 0.5rem; background: rgb(16 17 19 / 88%); color: inherit; font: inherit; cursor: pointer; }
+.demo.is-active .demo-frame { pointer-events: auto; }
+.demo.is-active .demo-activate { display: none; }
 .empty { color: #a9adb8; }
 footer { padding-block: 4rem 2rem; color: #a9adb8; font-size: 0.875rem; }
 
@@ -55,7 +59,8 @@ footer { padding-block: 4rem 2rem; color: #a9adb8; font-size: 0.875rem; }
   nav a, .eyebrow, time, .tags, .empty, footer { color: #656974; }
   nav a:hover { color: #1b1c20; }
   .button { background: #1b1c20; color: #fff; }
-  .card, .post-list article, .demo-frame { border-color: #d9dbe0; }
+  .card, .post-list article, .demo-frame, .demo-activate { border-color: #d9dbe0; }
+  .demo-activate { background: rgb(250 250 250 / 88%); }
 }
 
 @media (max-width: 32rem) {
