@@ -7,15 +7,15 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
 );
 ---
 
-<BaseLayout title="Блог | Stalis" description="Заметки Stalis.">
+<BaseLayout title="Blog | Stalis" description="Notes by Stalis.">
   <section class="page-heading">
-    <p class="eyebrow">Блог</p>
-    <h1>Заметки и идеи.</h1>
+    <p class="eyebrow">Blog</p>
+    <h1>Notes and ideas.</h1>
   </section>
   <div class="post-list">
     {posts.map((post) => (
       <article>
-        <time datetime={post.data.date.toISOString()}>{post.data.date.toLocaleDateString('ru-RU')}</time>
+        <time datetime={post.data.date.toISOString()}>{post.data.date.toLocaleDateString('en-US')}</time>
         <h2><a href={`/blog/${post.id.replace(/\.md$/, '')}/`}>{post.data.title}</a></h2>
         {post.data.description && <p>{post.data.description}</p>}
       </article>

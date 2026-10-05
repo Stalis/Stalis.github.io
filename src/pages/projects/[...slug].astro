@@ -22,13 +22,13 @@ const { Content } = await render(project);
     <Content />
     {project.data.repo && (
       <p class="links">
-        <a href={project.data.repo}>Исходный код</a>
+        <a href={project.data.repo}>Source code</a>
       </p>
     )}
   </article>
 </BaseLayout>
 
-{project.data.embedDemo && project.data.demo && <script define:vars={{ demoUrl: project.data.demo, demoTitle: `Демо: ${project.data.title}` }}>
+{project.data.embedDemo && project.data.demo && <script define:vars={{ demoUrl: project.data.demo, demoTitle: `Demo: ${project.data.title}` }}>
   document.querySelectorAll('[data-demo]').forEach((demo) => {
     const player = document.createElement('div');
     const frame = document.createElement('iframe');
@@ -44,7 +44,7 @@ const { Content } = await render(project);
     frame.tabIndex = -1;
     activate.className = 'demo-activate';
     activate.type = 'button';
-    activate.textContent = 'Нажмите, чтобы включить управление';
+    activate.textContent = 'Click to enable controls';
     actions.className = 'links demo-links';
     link.className = 'button';
     link.href = demoUrl;

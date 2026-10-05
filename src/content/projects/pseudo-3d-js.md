@@ -1,6 +1,6 @@
 ---
 title: Pseudo 3D JS
-description: Браузерный псевдо-3D движок с raycasting-рендерингом и ECS-архитектурой.
+description: A browser-based pseudo-3D engine with raycasting rendering and an ECS architecture.
 status: active
 stack:
   - TypeScript
@@ -16,21 +16,21 @@ draft: false
 
 <div class="demo" data-demo></div>
 
-Небольшой игровой движок для браузера, который строит псевдо-3D сцену на `HTML Canvas`. В основе рендеринга лежит raycasting: для каждого луча камера ищет стену на карте и рисует соответствующую вертикальную полосу текстуры.
+A small browser game engine that renders a pseudo-3D scene with `HTML Canvas`. Its renderer uses raycasting: for every ray, the camera finds a wall on the map and draws the corresponding vertical texture strip.
 
-## Что внутри
+## What is included
 
-- ECS-архитектура на ECSY: сущности, компоненты и игровые системы разделены по ответственности.
-- Пошаговое движение и повороты игрока.
-- Текстурированные стены, спрайты и портреты персонажей.
-- Отдельные слои движка, игровой логики и интерфейса.
+- An ECS architecture built with ECSY, separating entities, components, and game systems by responsibility.
+- Turn-based player movement and rotation.
+- Textured walls, sprites, and character portraits.
+- Separate engine, gameplay, and interface layers.
 
-## Управление
+## Controls
 
-| Действие | Клавиши |
+| Action | Keys |
 | --- | --- |
-| Вперёд / назад | `W` / `S` или `↑` / `↓` |
-| Влево / вправо | `A` / `D` или `←` |
-| Поворот | `Q` / `E` |
+| Move forward / backward | `W` / `S` or `↑` / `↓` |
+| Strafe left / right | `A` / `D` or `←` |
+| Turn | `Q` / `E` |
 
-Проект собирается Webpack; для локального запуска достаточно выполнить `npm install` и `npm start`.
+The project is built with Webpack. To run it locally, use `npm install` and `npm start`.

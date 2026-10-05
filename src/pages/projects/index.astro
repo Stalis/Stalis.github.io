@@ -7,10 +7,10 @@ const projects = (await getCollection('projects', ({ data }) => !data.draft)).so
 );
 ---
 
-<BaseLayout title="Проекты | Stalis" description="Проекты Stalis.">
+<BaseLayout title="Projects | Stalis" description="Projects by Stalis.">
   <section class="page-heading">
-    <p class="eyebrow">Проекты</p>
-    <h1>То, над чем я работаю.</h1>
+    <p class="eyebrow">Projects</p>
+    <h1>What I am working on.</h1>
   </section>
   {
     projects.length ? (
@@ -25,7 +25,7 @@ const projects = (await getCollection('projects', ({ data }) => !data.draft)).so
         ))}
       </div>
     ) : (
-      <p class="empty">Проекты появятся здесь позже.</p>
+      <p class="empty">Projects will appear here later.</p>
     )
   }
 </BaseLayout>
