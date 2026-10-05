@@ -17,39 +17,62 @@ const { Content } = await render(project);
 <BaseLayout title={`${project.data.title} | Stalis`} description={project.data.description}>
   <article class="prose">
     <p class="eyebrow">{project.data.status}</p>
-    <h1>{project.data.title}</h1>
-    <p class="lede">{project.data.description}</p>
     {project.data.stack.length > 0 && <p class="tags">{project.data.stack.join(' · ')}</p>}
+    <h1>{project.data.title}</h1>
     <Content />
-    {project.data.embedDemo && project.data.demo && (
-      <section class="demo">
-        <h2>Демо</h2>
-        <div class="demo-player" data-demo>
-          <iframe class="demo-frame" src={project.data.demo} title={`Демо: ${project.data.title}`} loading="lazy" tabindex="-1"></iframe>
-          <button class="demo-activate" type="button" data-demo-activate>Нажмите, чтобы включить управление</button>
-        </div>
-      </section>
-    )}
-    {(project.data.repo || project.data.demo) && (
+    {project.data.repo && (
       <p class="links">
-        {project.data.repo && <a href={project.data.repo}>Исходный код</a>}
-        {project.data.demo && <a class="button" href={project.data.demo} target="_blank" rel="noopener noreferrer">Open demo in a new tab</a>}
+        <a href={project.data.repo}>Исходный код</a>
       </p>
     )}
   </article>
 </BaseLayout>
 
-<script>
+{project.data.embedDemo && project.data.demo && <script define:vars={{ demoUrl: project.data.demo, demoTitle: `Демо: ${project.data.title}` }}>
   document.querySelectorAll('[data-demo]').forEach((demo) => {
-    const activate = demo.querySelector('[data-demo-activate]');
-    const frame = demo.querySelector('iframe');
+    const player = document.createElement('div');
+    const frame = document.createElement('iframe');
+    const activate = document.createElement('button');
+    const actions = document.createElement('p');
+    const link = document.createElement('a');
 
-    if (!(activate instanceof HTMLButtonElement) || !(frame instanceof HTMLIFrameElement)) return;
+    player.className = 'demo-player';
+    frame.className = 'demo-frame';
+    frame.src = demoUrl;
+    frame.title = demoTitle;
+    frame.loading = 'lazy';
+    frame.tabIndex = -1;
+    activate.className = 'demo-activate';
+    activate.type = 'button';
+    activate.textContent = 'Нажмите, чтобы включить управление';
+    actions.className = 'links demo-links';
+    link.className = 'button';
+    link.href = demoUrl;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    link.textContent = 'Open demo in a new tab';
+
+    player.append(frame, activate);
+    actions.append(link);
+    demo.append(player, actions);
+
+    frame.addEventListener('load', () => {
+      const documentElement = frame.contentDocument?.documentElement;
+      if (!documentElement) return;
+
+      const resize = () => {
+        frame.style.height = `${documentElement.scrollHeight}px`;
+      };
+
+      resize();
+      new ResizeObserver(resize).observe(documentElement);
+    });
 
     activate.addEventListener('click', () => {
       demo.classList.add('is-active');
-      frame.removeAttribute('tabindex');
+      frame.tabIndex = 0;
       frame.focus();
     });
   });
 </script>
+}
